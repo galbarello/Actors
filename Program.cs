@@ -4,12 +4,12 @@ public class Program
     
     static async void Main(string[] args)
     {
-        var actors = new BlockingActor[NoActors];
+        var actors = new Actor[NoActors];
         var tasks = new List<Task>();
         
         for (int i = 0; i < NoActors; i++)
         {
-            actors[i] = new BlockingActor();
+            actors[i] = new Actor();
             actors[i].Execute(Foo, i);
         }
         

@@ -4,10 +4,10 @@ public class Actor
     private object objLock = newobject();
     
     public Task<R> Execute<T, R>(Func<T, Task<R>> function, T arg)
-    { 
-      if (!function.Method.IsStatic)
-      {
-        new ArgumentException("Function must be static");
+    {
+        if (!function.Method.IsStatic)
+        {
+            new ArgumentException("Function must be static");    
         }
         
         var tcs = new TaskCompletionSource<R>();
