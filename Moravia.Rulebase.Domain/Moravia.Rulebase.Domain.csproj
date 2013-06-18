@@ -35,8 +35,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\Bootstrapper.cs" />
     <Compile Include="Core\Actor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Segment.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -2,26 +2,36 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Moravia.Rulebase.Domain;
+using Moravia.Rulebase.Domain.Config;
 
 namespace Moravia.Rulebase.ConsoleTest
 {
     class Program
     {
-        private static int Actors = 100000;
-        private static int sleepy = 4;
+        
+        private static int sleepy = 1;
+        
         
 
         static void Main(string[] args)
         {
-            var clock = new Stopwatch();
-            var actors = new Actor[Actors];
             var tasks = new List<Task>();
+            var clock = new Stopwatch();
+
+            var document = SegmentCreator.GetSegments("en", "es");
+            
+            Bootstrapper.Init();    
+
             clock.Start();
-            for (int i = 0; i < Actors; i++)
-            {
-                actors[i] = new Actor();
-               tasks.Add(actors[i].Execute(Foo, i));
-            }
+
+            //this should be catched before
+
+            for (int i = 0; i < Bootstrapper.RuleGetter(); i++)
+            {               
+                tasks.Add(Bootstrapper.Actors()[i].Execute(Eval, new Segment()));
+            }            
+            
 
             Console.WriteLine("done queuing");
             Task.WaitAll(tasks.ToArray());
@@ -32,14 +42,10 @@ namespace Moravia.Rulebase.ConsoleTest
         }
 
         // dummy task (4 sec sleep)
-        static async Task<string> Foo(int i)
+        static async Task<bool> Eval(Segment segment)
         {
-            
-            
             await Task.Delay(TimeSpan.FromSeconds(sleepy));
-            Console.WriteLine("done " + i);            
-            
-            return "done";
+            return true;
         }
-    }
+    }    
 }
